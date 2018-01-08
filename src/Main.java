@@ -9,15 +9,15 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[] mainColor = {57,57,99}; //½ÇÉ«ÌØÕ÷ÏñËØ
-		int fixY = 300; //ÆÁ±ÎYÖá¼Æ·Ö°å
+		int[] mainColor = {57,57,99}; //è§’è‰²ç‰¹å¾åƒç´ 
+		int fixY = 300; //å±è”½Yè½´è®¡åˆ†æ¿
 		while(true){
 			try {
-				CetImage(); //½ØÈ¡ÆÁÄ»Í¼Ïñµ½µçÄÔ
-				int distance = getDistance(mainColor,fixY); //»ñÈ¡½ÇÉ«µ½Ä¿±êµãµÄ¾àÀë
+				CetImage(); //æˆªå–å±å¹•å›¾åƒåˆ°ç”µè„‘
+				int distance = getDistance(mainColor,fixY); //è·å–è§’è‰²åˆ°ç›®æ ‡ç‚¹çš„è·ç¦»
 				System.out.println("Distance:"+distance);
-			    RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb shell input swipe 200 200 200 200 "+distance); //adbÄ£Äâµã»÷£¬¿ªÊ¼ÌøÔ¾
-				Thread.sleep(1400); //Ïß³ÌĞİÃß£¬µÈ´ı»­ÃæÎÈ¶¨
+			    RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb shell input swipe 200 200 200 200 "+distance); //adbæ¨¡æ‹Ÿç‚¹å‡»ï¼Œå¼€å§‹è·³è·ƒ
+				Thread.sleep(1400); //çº¿ç¨‹ä¼‘çœ ï¼Œç­‰å¾…ç”»é¢ç¨³å®š
 			} catch (InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -26,7 +26,7 @@ public class Main {
 	}
 	
 	public static int getDistance(int[] mainColor,int fixY) throws IOException{
-		File file = new File("D:/tmp.png"); //Í¼Æ¬Â·¾¶
+		File file = new File("D:/tmp.png"); //å›¾ç‰‡è·¯å¾„
 		boolean STP = true;
 		boolean ETP = true;
 		int x1 = 0,y1 = 0,x2 = 0,y2 = 0;
@@ -34,7 +34,7 @@ public class Main {
 		int tmp = getIndex(image,0,fixY);
 	    for (int i = fixY;i<1920;i++){
 	        for(int j = 0;j<1080;j++){
-	        	if(Math.abs(getIndex(image,j,i)-tmp)>30&&ETP){//¼òµ¥±È½ÏÌØÕ÷
+	        	if(Math.abs(getIndex(image,j,i)-tmp)>30&&ETP){//ç®€å•æ¯”è¾ƒç‰¹å¾
 	        		System.out.println("Starting Point:"+j+","+i);
 	        		x1 = j;
 	        		y1 = i;
@@ -46,12 +46,14 @@ public class Main {
 		        	y2 = i;
 		        	STP = false;
 	        	}
+			if(!STP&&!ETP)){
+				return (int)(Math.sqrt((Math.abs(x1 - x2)*Math.abs(x1 - x2))+(Math.abs(y1 - y2)*Math.abs(y1 - y2)))*1.2);//é€šè¿‡åæ ‡è®¡ç®—è·ç¦»
+			}
 	        }
 	    } 
-		return (int)(Math.sqrt((Math.abs(x1 - x2)*Math.abs(x1 - x2))+(Math.abs(y1 - y2)*Math.abs(y1 - y2)))*1.2);//Í¨¹ı×ø±ê¼ÆËã¾àÀë
 	}
 	
-	public static int[] getRGB(BufferedImage image,int x,int y){ //¸ù¾İ×ø±ê»ñÈ¡ÏñËØ
+	public static int[] getRGB(BufferedImage image,int x,int y){ //æ ¹æ®åæ ‡è·å–åƒç´ 
 		int[] rgb = new int [3];
 		int pixel = image.getRGB(x,y);
 		rgb[0] = (pixel & 0xff0000) >> 16;
@@ -60,17 +62,17 @@ public class Main {
         return rgb;
 	}
 	
-	public static int getIndex(BufferedImage image,int x,int y){ //¸ù¾İ×ø±ê»ñÈ¡ÌØÕ÷
+	public static int getIndex(BufferedImage image,int x,int y){ //æ ¹æ®åæ ‡è·å–ç‰¹å¾ï¼Œç®€å•å¤„ç†ï¼Œå°†RBGå€¼ç›¸åŠ 
 		int[] rgb = getRGB(image,x,y);
         return rgb[0]+rgb[1]+rgb[2];
 	}
 	
 	public static void CetImage(){
-		RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb shell /system/bin/screencap -p /sdcard/tmp.png"); //µ÷ÓÃadb½ØÍ¼£¬´¢´æµ½sd¿¨
-		RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb pull /sdcard/tmp.png D:/tmp.png"); //µ÷ÓÃadb½«Í¼Æ¬¸³Öµµ½µçÄÔ 
+		RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb shell /system/bin/screencap -p /sdcard/tmp.png"); //è°ƒç”¨adbæˆªå›¾ï¼Œå‚¨å­˜åˆ°sdå¡
+		RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb pull /sdcard/tmp.png D:/tmp.png"); //è°ƒç”¨adbå°†å›¾ç‰‡èµ‹å€¼åˆ°ç”µè„‘ 
 	}
 	
-	public static void RunCmd(String cmd){ //Ö´ĞĞÃüÁî
+	public static void RunCmd(String cmd){ //æ‰§è¡Œå‘½ä»¤
 		try { 
 			Process process = null;
 			process = Runtime.getRuntime().exec(cmd);
