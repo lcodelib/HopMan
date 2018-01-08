@@ -34,23 +34,25 @@ public class Main {
 		int tmp = getIndex(image,0,fixY);
 	    	for (int i = fixY;i<1920;i++){
 	        	for(int j = 0;j<1080;j++){
-	        	if(Math.abs(getIndex(image,j,i)-tmp)>30&&ETP){//简单比较特征
-	        		System.out.println("Starting Point:"+j+","+i);
-	        		x1 = j;
-	        		y1 = i;
-	        		ETP = false;
+	        		if(Math.abs(getIndex(image,j,i)-tmp)>30&&ETP){//简单比较特征
+	        			System.out.println("Starting Point:"+j+","+i);
+	        			x1 = j;
+	        			y1 = i;
+	        			ETP = false;
+	        		}
+	        		if(Arrays.equals(getRGB(image,j,i), mainColor)&&STP){
+		        		System.out.println("End Point:"+j+","+i);
+		        		x2 = j;
+		        		y2 = i;
+		        		STP = false;
+	        		}
+				if(!STP&&!ETP)){
+					return (int)(Math.sqrt((Math.abs(x1 - x2)*Math.abs(x1 - x2))+(Math.abs(y1 - y2)*Math.abs(y1 - y2)))*1.2);//通过坐标计算距离
+				}
 	        	}
-	        	if(Arrays.equals(getRGB(image,j,i), mainColor)&&STP){
-		        	System.out.println("End Point:"+j+","+i);
-		        	x2 = j;
-		        	y2 = i;
-		        	STP = false;
-	        	}
-			if(!STP&&!ETP)){
-				return (int)(Math.sqrt((Math.abs(x1 - x2)*Math.abs(x1 - x2))+(Math.abs(y1 - y2)*Math.abs(y1 - y2)))*1.2);//通过坐标计算距离
-			}
-	        }
-	    } 
+	   	} 
+		return -1;
+		
 	}
 	
 	public static int[] getRGB(BufferedImage image,int x,int y){ //根据坐标获取像素
