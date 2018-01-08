@@ -16,7 +16,7 @@ public class Main {
 				CetImage(); //截取屏幕图像到电脑
 				int distance = getDistance(mainColor,fixY); //获取角色到目标点的距离
 				System.out.println("Distance:"+distance);
-			    RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb shell input swipe 200 200 200 200 "+distance); //adb模拟点击，开始跳跃
+			    	RunCmd("cmd /c G:/SDK/android-sdk-windows/platform-tools/adb shell input swipe 200 200 200 200 "+distance); //adb模拟点击，开始跳跃
 				Thread.sleep(1400); //线程休眠，等待画面稳定
 			} catch (InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
@@ -32,8 +32,8 @@ public class Main {
 		int x1 = 0,y1 = 0,x2 = 0,y2 = 0;
 		BufferedImage image = ImageIO.read(file); 
 		int tmp = getIndex(image,0,fixY);
-	    for (int i = fixY;i<1920;i++){
-	        for(int j = 0;j<1080;j++){
+	    	for (int i = fixY;i<1920;i++){
+	        	for(int j = 0;j<1080;j++){
 	        	if(Math.abs(getIndex(image,j,i)-tmp)>30&&ETP){//简单比较特征
 	        		System.out.println("Starting Point:"+j+","+i);
 	        		x1 = j;
@@ -57,14 +57,14 @@ public class Main {
 		int[] rgb = new int [3];
 		int pixel = image.getRGB(x,y);
 		rgb[0] = (pixel & 0xff0000) >> 16;
-        rgb[1] = (pixel & 0xff00) >> 8;
-        rgb[2] = (pixel & 0xff);
-        return rgb;
+        	rgb[1] = (pixel & 0xff00) >> 8;
+        	rgb[2] = (pixel & 0xff);
+        	return rgb;
 	}
 	
 	public static int getIndex(BufferedImage image,int x,int y){ //根据坐标获取特征，简单处理，将RBG值相加
 		int[] rgb = getRGB(image,x,y);
-        return rgb[0]+rgb[1]+rgb[2];
+        	return rgb[0]+rgb[1]+rgb[2];
 	}
 	
 	public static void CetImage(){
